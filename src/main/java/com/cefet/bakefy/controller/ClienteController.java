@@ -37,27 +37,28 @@ public class ClienteController {
         return ResponseEntity.ok(clienteService.listar());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ClienteResponseDTO> buscarPorId(@PathVariable Integer id) {
-        return ResponseEntity.ok(clienteService.buscarPorId(id));
-    }
-
+@GetMapping("/{id:\\d+}")
+public ResponseEntity<ClienteResponseDTO> buscarPorId(@PathVariable Integer id) {
+    return ResponseEntity.ok(clienteService.buscarPorId(id));
+}
     @PostMapping
     public ResponseEntity<ClienteResponseDTO> inserir(@Valid @RequestBody ClienteRequestDTO dto) {
         ClienteResponseDTO cliente = clienteService.inserir(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ClienteResponseDTO> atualizar(@PathVariable Integer id, @Valid @RequestBody ClienteRequestDTO dto) {
-        return ResponseEntity.ok(clienteService.atualizar(id, dto));
-    }
+@PutMapping("/{id:\\d+}")
+public ResponseEntity<ClienteResponseDTO> atualizar(
+        @PathVariable Integer id,
+        @Valid @RequestBody ClienteRequestDTO dto) {
+    return ResponseEntity.ok(clienteService.atualizar(id, dto));
+}
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Integer id) {
-        clienteService.excluir(id);
-        return ResponseEntity.noContent().build();
-    }
+@DeleteMapping("/{id:\\d+}")
+public ResponseEntity<Void> excluir(@PathVariable Integer id) {
+    clienteService.excluir(id);
+    return ResponseEntity.noContent().build();
+}
 
     @PostMapping("/login")
     public ResponseEntity<ClienteResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto) {
