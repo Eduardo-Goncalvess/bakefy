@@ -1,7 +1,6 @@
 package com.cefet.bakefy.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +13,7 @@ import com.cefet.bakefy.service.UsuarioService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/produtos")
+@RequestMapping("/api/v1/usuarios")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -24,9 +23,11 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto) {
+    public ResponseEntity<LoginResponseDTO> login(
+            @Valid @RequestBody LoginRequestDTO dto) {
+
         String token = usuarioService.autenticar(dto);
+
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
-
 }
