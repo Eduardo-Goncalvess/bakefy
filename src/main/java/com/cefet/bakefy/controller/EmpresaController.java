@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cefet.bakefy.dto.EmpresaRequestDTO;
 import com.cefet.bakefy.dto.EmpresaResponseDTO;
-import com.cefet.bakefy.dto.LoginRequestDTO;
 import com.cefet.bakefy.service.EmpresaService;
 
 import jakarta.validation.Valid;
@@ -59,8 +58,5 @@ public class EmpresaController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<EmpresaResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto) {
-        return ResponseEntity.ok(empresaService.login(dto));
-    }
+    /* Login foi centralizado em UsuarioController -> POST /api/v1/usuarios/login */
 }

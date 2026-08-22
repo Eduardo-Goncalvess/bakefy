@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cefet.bakefy.dto.ClienteRequestDTO;
 import com.cefet.bakefy.dto.ClienteResponseDTO;
-import com.cefet.bakefy.dto.LoginRequestDTO;
 import com.cefet.bakefy.service.ClienteService;
 
 import jakarta.validation.Valid;
@@ -37,31 +36,25 @@ public class ClienteController {
         return ResponseEntity.ok(clienteService.listar());
     }
 
-@GetMapping("/{id:\\d+}")
-public ResponseEntity<ClienteResponseDTO> buscarPorId(@PathVariable Integer id) {
-    return ResponseEntity.ok(clienteService.buscarPorId(id));
-}
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteResponseDTO> buscarPorId(@PathVariable Integer id) {
+        return ResponseEntity.ok(clienteService.buscarPorId(id));
+    }
+
     @PostMapping
     public ResponseEntity<ClienteResponseDTO> inserir(@Valid @RequestBody ClienteRequestDTO dto) {
         ClienteResponseDTO cliente = clienteService.inserir(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
     }
 
-@PutMapping("/{id:\\d+}")
-public ResponseEntity<ClienteResponseDTO> atualizar(
-        @PathVariable Integer id,
-        @Valid @RequestBody ClienteRequestDTO dto) {
-    return ResponseEntity.ok(clienteService.atualizar(id, dto));
-}
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteResponseDTO> atualizar(@PathVariable Integer id, @Valid @RequestBody ClienteRequestDTO dto) {
+        return ResponseEntity.ok(clienteService.atualizar(id, dto));
+    }
 
-@DeleteMapping("/{id:\\d+}")
-public ResponseEntity<Void> excluir(@PathVariable Integer id) {
-    clienteService.excluir(id);
-    return ResponseEntity.noContent().build();
-}
-
-    @PostMapping("/login")
-    public ResponseEntity<ClienteResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto) {
-        return ResponseEntity.ok(clienteService.login(dto));
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable Integer id) {
+        clienteService.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.cefet.bakefy.dto.EmpresaRequestDTO;
 import com.cefet.bakefy.dto.EmpresaResponseDTO;
-import com.cefet.bakefy.dto.LoginRequestDTO;
 import com.cefet.bakefy.entity.Empresa;
 import com.cefet.bakefy.entity.TipoUsuario;
 import com.cefet.bakefy.repository.EmpresaRepository;
@@ -91,16 +90,5 @@ public class EmpresaService {
         empresaRepository.delete(empresa);
     }
 
-    @Transactional(readOnly = true)
-    public EmpresaResponseDTO login(LoginRequestDTO dto) {
-
-        Empresa empresa = empresaRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email ou senha inválidos."));
-
-        if (!empresa.getSenha().equals(dto.getSenha())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email ou senha inválidos.");
-        }
-
-        return new EmpresaResponseDTO(empresa);
-    }
+    /* Login foi centralizado em UsuarioService, que enxerga Cliente/Empresa/Admin de uma vez */
 }
