@@ -1,7 +1,6 @@
 package com.cefet.bakefy.security;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -18,12 +17,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private static final List<String> ROTAS_PUBLICAS_POST = List.of(
-            "/api/v1/usuarios/login",
-            "/api/v1/clientes",
-            "/api/v1/empresas"
-    );
-
     private final JwtService jwtService;
 
     public JwtAuthFilter(JwtService jwtService) {
@@ -37,26 +30,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             FilterChain filterChain)
             throws ServletException, IOException {
 
-        String metodo = request.getMethod();
-        String caminho = request.getRequestURI();
-
-boolean requisicaoPublica =
-        "OPTIONS".equalsIgnoreCase(metodo)
-        || ("POST".equalsIgnoreCase(metodo)
-        && ROTAS_PUBLICAS_POST.contains(caminho));
-
-        if (requisicaoPublica) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         String header = request.getHeader("Authorization");
-
         if (header == null || header.isBlank()) {
-            response.sendError(
-                    HttpServletResponse.SC_UNAUTHORIZED,
-                    "Token não informado."
-            );
+            filterChain.doFilter(request, response);
             return;
         }
 
