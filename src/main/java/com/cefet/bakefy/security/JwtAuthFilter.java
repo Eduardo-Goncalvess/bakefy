@@ -40,11 +40,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String metodo = request.getMethod();
         String caminho = request.getRequestURI();
 
-        boolean requisicaoPublica =
-                "GET".equalsIgnoreCase(metodo)
-                || "OPTIONS".equalsIgnoreCase(metodo)
-                || ("POST".equalsIgnoreCase(metodo)
-                && ROTAS_PUBLICAS_POST.contains(caminho));
+boolean requisicaoPublica =
+        "OPTIONS".equalsIgnoreCase(metodo)
+        || ("POST".equalsIgnoreCase(metodo)
+        && ROTAS_PUBLICAS_POST.contains(caminho));
 
         if (requisicaoPublica) {
             filterChain.doFilter(request, response);
