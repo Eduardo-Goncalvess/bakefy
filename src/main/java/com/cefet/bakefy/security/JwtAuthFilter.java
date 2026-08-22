@@ -28,15 +28,20 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain)
             throws ServletException, IOException {
 
         String metodo = request.getMethod();
         String caminho = request.getRequestURI();
 
-        boolean requisicaoPublica = "GET".equalsIgnoreCase(metodo)
+        boolean requisicaoPublica
+                = "GET".equalsIgnoreCase(metodo)
                 || "OPTIONS".equalsIgnoreCase(metodo)
-                || ("POST".equalsIgnoreCase(metodo) && ROTAS_PUBLICAS_POST.contains(caminho));
+                || ("POST".equalsIgnoreCase(metodo)
+                && ROTAS_PUBLICAS_POST.contains(caminho));
 
         if (requisicaoPublica) {
             filterChain.doFilter(request, response);
