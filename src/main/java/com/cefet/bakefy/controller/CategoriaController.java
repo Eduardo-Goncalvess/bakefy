@@ -13,7 +13,6 @@ import com.cefet.bakefy.repository.CategoriaRepository;
 
 @RestController
 @RequestMapping("/api/v1/categorias")
-@CrossOrigin(origins = "*")
 public class CategoriaController {
 
     private final CategoriaRepository categoriaRepository;

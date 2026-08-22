@@ -22,7 +22,6 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/empresas")
-@CrossOrigin(origins = "*")
 public class EmpresaController {
 
     private final EmpresaService empresaService;
