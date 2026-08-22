@@ -29,20 +29,28 @@ public class SecurityConfig {
             )
 
             .authorizeHttpRequests(auth -> auth
+
+                // Login e cadastro
                 .requestMatchers(
                     "/api/v1/usuarios/login",
                     "/api/v1/clientes",
                     "/api/v1/empresas"
                 ).permitAll()
+
+                // Consultas públicas
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/v1/produtos",
                     "/api/v1/produtos/**"
                 ).permitAll()
+
+                // Requisições CORS
                 .requestMatchers(
                     HttpMethod.OPTIONS,
                     "/**"
                 ).permitAll()
+
+                // Todo o restante exige JWT
                 .anyRequest().authenticated()
             )
 
