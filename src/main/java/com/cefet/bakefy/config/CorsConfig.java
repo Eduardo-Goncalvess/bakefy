@@ -18,7 +18,8 @@ public class CorsConfig {
 
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:8100",
-                "capacitor://localhost"
+                "capacitor://localhost",
+                "https://localhost"
         ));
 
         configuration.setAllowedMethods(List.of(
@@ -30,10 +31,7 @@ public class CorsConfig {
                 "PATCH"
         ));
 
-        configuration.setAllowedHeaders(List.of(
-                "Authorization",
-                "Content-Type"
-        ));
+        configuration.setAllowedHeaders(List.of("*"));
 
         configuration.setAllowCredentials(false);
 
