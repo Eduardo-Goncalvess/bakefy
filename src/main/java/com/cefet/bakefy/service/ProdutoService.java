@@ -97,6 +97,18 @@ public class ProdutoService {
     }
 
     @Transactional
+    public ProdutoResponseDTO alternarStatus(Integer id) {
+
+        Produto produto = produtoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado. Id: " + id));
+
+        boolean disponivelAtualmente = "true".equals(produto.getStatus());
+        produto.setStatus(disponivelAtualmente ? "false" : "true");
+
+        return new ProdutoResponseDTO(produtoRepository.save(produto));
+    }
+
+    @Transactional
     public void excluir(Integer id) {
 
         Produto produto = produtoRepository.findById(id)
