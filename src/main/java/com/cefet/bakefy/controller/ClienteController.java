@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cefet.bakefy.dto.ClienteRequestDTO;
 import com.cefet.bakefy.dto.ClienteResponseDTO;
+import com.cefet.bakefy.dto.ProdutoResponseDTO;
 import com.cefet.bakefy.service.ClienteService;
 
 import jakarta.validation.Valid;
@@ -54,6 +54,23 @@ public class ClienteController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Integer id) {
         clienteService.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{idCliente}/favoritos")
+    public ResponseEntity<List<ProdutoResponseDTO>> listarFavoritos(@PathVariable Integer idCliente) {
+        return ResponseEntity.ok(clienteService.listarFavoritos(idCliente));
+    }
+
+    @PostMapping("/{idCliente}/favoritos/{idProduto}")
+    public ResponseEntity<Void> favoritar(@PathVariable Integer idCliente, @PathVariable Integer idProduto) {
+        clienteService.favoritar(idCliente, idProduto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{idCliente}/favoritos/{idProduto}")
+    public ResponseEntity<Void> desfavoritar(@PathVariable Integer idCliente, @PathVariable Integer idProduto) {
+        clienteService.desfavoritar(idCliente, idProduto);
         return ResponseEntity.noContent().build();
     }
 }
