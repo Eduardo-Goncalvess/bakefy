@@ -12,9 +12,11 @@ import com.cefet.bakefy.dto.ClienteRequestDTO;
 import com.cefet.bakefy.dto.ClienteResponseDTO;
 import com.cefet.bakefy.dto.ProdutoResponseDTO;
 import com.cefet.bakefy.entity.Cliente;
+import com.cefet.bakefy.entity.DispositivoCliente;
 import com.cefet.bakefy.entity.Produto;
 import com.cefet.bakefy.entity.TipoUsuario;
 import com.cefet.bakefy.repository.ClienteRepository;
+import com.cefet.bakefy.repository.DispositivoClienteRepository;
 import com.cefet.bakefy.repository.ProdutoRepository;
 
 @Service
@@ -22,10 +24,15 @@ public class ClienteService {
 
     private final ClienteRepository clienteRepository;
     private final ProdutoRepository produtoRepository;
+    private final DispositivoClienteRepository dispositivoClienteRepository;
 
-    public ClienteService(ClienteRepository clienteRepository, ProdutoRepository produtoRepository) {
+    public ClienteService(
+            ClienteRepository clienteRepository,
+            ProdutoRepository produtoRepository,
+            DispositivoClienteRepository dispositivoClienteRepository) {
         this.clienteRepository = clienteRepository;
         this.produtoRepository = produtoRepository;
+        this.dispositivoClienteRepository = dispositivoClienteRepository;
     }
 
     @Transactional(readOnly = true)
@@ -131,6 +138,21 @@ public class ClienteService {
         }
 
         return produtos.stream().map(ProdutoResponseDTO::new).toList();
+    }
+
+    @Transactional
+    public void registrarDispositivo(Integer idCliente, String tokenFcm) {
+
+        Cliente cliente = clienteRepository.findById(idCliente)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado. Id: " + idCliente));
+
+        DispositivoCliente dispositivo = dispositivoClienteRepository.findByTokenFcm(tokenFcm)
+                .orElse(new DispositivoCliente());
+
+        dispositivo.setTokenFcm(tokenFcm);
+        dispositivo.setCliente(cliente);
+
+        dispositivoClienteRepository.save(dispositivo);
     }
 
 }

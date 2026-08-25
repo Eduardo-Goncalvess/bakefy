@@ -1,5 +1,6 @@
 package com.cefet.bakefy.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     boolean existsByEmailAndIdUsuarioNot(String email, Integer idUsuario);
 
     Optional<Cliente> findByEmail(String email);
+
+    List<Cliente> findByProdutos_IdProduto(Integer idProduto);
 }

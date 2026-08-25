@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cefet.bakefy.dto.ClienteRequestDTO;
 import com.cefet.bakefy.dto.ClienteResponseDTO;
+import com.cefet.bakefy.dto.DispositivoRequestDTO;
 import com.cefet.bakefy.dto.ProdutoResponseDTO;
 import com.cefet.bakefy.service.ClienteService;
 
@@ -71,6 +72,14 @@ public class ClienteController {
     @DeleteMapping("/{idCliente}/favoritos/{idProduto}")
     public ResponseEntity<Void> desfavoritar(@PathVariable Integer idCliente, @PathVariable Integer idProduto) {
         clienteService.desfavoritar(idCliente, idProduto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{idCliente}/dispositivos")
+    public ResponseEntity<Void> registrarDispositivo(
+            @PathVariable Integer idCliente,
+            @Valid @RequestBody DispositivoRequestDTO dto) {
+        clienteService.registrarDispositivo(idCliente, dto.getTokenFcm());
         return ResponseEntity.noContent().build();
     }
 }

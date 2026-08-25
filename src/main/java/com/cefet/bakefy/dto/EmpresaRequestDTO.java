@@ -1,6 +1,5 @@
 package com.cefet.bakefy.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,6 @@ public class EmpresaRequestDTO {
     private String senha;
 
     @NotBlank(message = "O campo email é obrigatório")
-    //@Email(message = "Email inválido")
     private String email;
 
     private String telefone;
