@@ -25,13 +25,16 @@ public class ProdutoService {
     private final EmpresaRepository empresaRepository;
     private final FornecedorRepository fornecedorRepository;
     private final CategoriaRepository categoriaRepository;
+    private final NotificacaoService notificacaoService;
 
     public ProdutoService(ProdutoRepository produtoRepository, EmpresaRepository empresaRepository,
-            FornecedorRepository fornecedorRepository, CategoriaRepository categoriaRepository) {
+            FornecedorRepository fornecedorRepository, CategoriaRepository categoriaRepository,
+            NotificacaoService notificacaoService) {
         this.produtoRepository = produtoRepository;
         this.empresaRepository = empresaRepository;
         this.fornecedorRepository = fornecedorRepository;
         this.categoriaRepository = categoriaRepository;
+        this.notificacaoService = notificacaoService;
     }
 
     @Transactional(readOnly = true)
@@ -105,7 +108,11 @@ public class ProdutoService {
         boolean disponivelAtualmente = "true".equals(produto.getStatus());
         produto.setStatus(disponivelAtualmente ? "false" : "true");
 
-        return new ProdutoResponseDTO(produtoRepository.save(produto));
+        Produto produtoSalvo = produtoRepository.save(produto);
+
+        notificacaoService.notificarMudancaDeStatus(produtoSalvo);
+
+        return new ProdutoResponseDTO(produtoSalvo);
     }
 
     @Transactional
