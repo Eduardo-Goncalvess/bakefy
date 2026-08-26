@@ -44,8 +44,8 @@ public class NotificacaoService {
         boolean disponivel = "true".equals(produto.getStatus());
 
         String mensagem = disponivel
-                ? produto.getNmProduto() + " está disponível novamente!"
-                : produto.getNmProduto() + " ficou indisponível.";
+                ? produto.getNmProduto() + " ficou indisponível!"
+                : produto.getNmProduto() + " está disponível novamente!";
 
         NotificacaoDTO notificacao = new NotificacaoDTO(
                 produto.getIdProduto(),
