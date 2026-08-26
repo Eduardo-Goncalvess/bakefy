@@ -1,7 +1,8 @@
 package com.cefet.bakefy.service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -101,7 +102,7 @@ public class ClienteService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado. Id: " + idProduto));
 
         if (cliente.getProdutos() == null) {
-            cliente.setProdutos(new ArrayList<>());
+            cliente.setProdutos(new HashSet<>());
         }
 
         boolean jaFavoritado = cliente.getProdutos().stream()
@@ -131,7 +132,7 @@ public class ClienteService {
         Cliente cliente = clienteRepository.findById(idCliente)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado. Id: " + idCliente));
 
-        List<Produto> produtos = cliente.getProdutos();
+        Set<Produto> produtos = cliente.getProdutos();
 
         if (produtos == null) {
             return List.of();

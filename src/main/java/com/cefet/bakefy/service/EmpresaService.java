@@ -90,5 +90,4 @@ public class EmpresaService {
         empresaRepository.delete(empresa);
     }
 
-    /* Login foi centralizado em UsuarioService, que enxerga Cliente/Empresa/Admin de uma vez */
 }
