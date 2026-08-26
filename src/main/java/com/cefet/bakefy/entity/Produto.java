@@ -45,4 +45,5 @@ public class Produto {
     @ManyToOne
     @JoinColumn(name = "idCategoria", nullable = false)
     private Categoria categoria;
+    //Sem data
 }
